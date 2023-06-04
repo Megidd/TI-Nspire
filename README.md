@@ -26,6 +26,8 @@ sudo make install
 
 On Linux, `*.tns` files can be transferred to TI-Nspire device by: https://github.com/lights0123/n-link/releases
 
+On Linux, these instructions must be followed too: https://lights0123.com/n-link/#linux
+
 # Device used
 
 ![TI-Nspire™ calculator being used](https://github.com/Megidd/TI-Nspire/assets/17475482/e4e76ee5-fea1-4fa3-97b4-342a835aef4b)
