@@ -15,7 +15,7 @@ function on.paint(gc)
         -- Draw result
         for i = 1, #numbers do
             if not tonumber(numbers[i]) then
-                gc:drawString("Error: Invalid input for" .. descriptions[i], 8, 122)
+                gc:drawString("Error: Invalid input for " .. descriptions[i], 8, 122)
                 return
             end
         end
