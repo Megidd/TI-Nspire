@@ -11,9 +11,11 @@ To develop Lua scripts for TI-Nspire™ calculators by [this guide](https://educ
 
 This repository can be used as a benchmark: https://github.com/skayo/TI-Nspire-Minesweeper
 
-# Dependencies
+# How
 
-On Linux, build the Luna executable used by our make file. Tested on openSUSE Leap.
+## 1. Dependency
+
+On Linux, build a dependency used by our *make* file. Tested on openSUSE Leap.
 
 ```bash
 git clone https://github.com/ndless-nspire/Luna
@@ -22,9 +24,18 @@ make
 sudo make install
 ```
 
-# Transfer
+## 2. Build TNS file
 
-On Linux, `*.tns` files can be transferred to TI-Nspire device by: https://github.com/lights0123/n-link/releases
+For example, TNS file for `addition` project can be built like this:
+
+```bash
+cd addition/
+make
+```
+
+## 3. Transfer
+
+On Linux, built `*.tns` files can be transferred to TI-Nspire device by: https://github.com/lights0123/n-link/releases
 
 On Linux, these instructions must be followed too: https://lights0123.com/n-link/#linux
 
