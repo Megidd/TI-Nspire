@@ -57,13 +57,7 @@ function on.charIn(ch)
         end
     end
 
-    if numbers[current_state] == "" then
-        if ch == "." then
-            ch = "0."
-        end
-    end
-
-    if numbers[current_state] == "+" or numbers[current_state] == "-" then
+    if numbers[current_state] == "" or numbers[current_state] == "+" or numbers[current_state] == "-" then
         if ch == "." then
             ch = "0."
         end
