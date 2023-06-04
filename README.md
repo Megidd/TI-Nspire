@@ -13,12 +13,13 @@ This repository can be used as a benchmark: https://github.com/skayo/TI-Nspire-M
 
 # Dependencies
 
-Build the Luna executable used by our make file:
+On Linux, build the Luna executable used by our make file. Tested on openSUSE Leap.
 
 ```bash
 git clone https://github.com/ndless-nspire/Luna
 cd Luna/
 make
+sudo make install
 ```
 
 # Device used
