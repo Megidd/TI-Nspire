@@ -35,26 +35,42 @@ function on.paint(gc)
 end
 
 function on.charIn(ch)
-    if (ch >= "0" and ch <= "9") or (ch == "." and ((current_state == 1 and not string.find(numbers[1], "%.")) or
-        (current_state == 2 and not string.find(numbers[2], "%.")))) or
-        ((ch == "+" or ch == "-") and
-            ((current_state == 1 and numbers[1] == "") or (current_state == 2 and numbers[2] == ""))) then
+    if current_state > #numbers then
+        return
+    end
 
-        if (current_state == 1 and numbers[1] == "") or (current_state == 2 and numbers[2] == "") then
-            if ch == "." then
-                ch = "0."
-            end
-            if ch == "+" or ch == "-" then
-                ch = ch
-            end
+    local acceptable = false
+
+    if ch >= "0" and ch <= "9" then
+        acceptable = true
+    end
+
+    if ch == "." then
+        if not string.find(numbers[current_state], "%.") then
+            acceptable = true
         end
+    end
 
-        if current_state == 1 then
-            numbers[1] = numbers[1] .. ch
-        elseif current_state == 2 then
-            numbers[2] = numbers[2] .. ch
+    if ch == "+" or ch == "-" then
+        if numbers[current_state] == "" then
+            acceptable = true
         end
+    end
 
+    if numbers[current_state] == "" then
+        if ch == "." then
+            ch = "0."
+        end
+    end
+
+    if numbers[current_state] == "+" or numbers[current_state] == "-" then
+        if ch == "." then
+            ch = "0."
+        end
+    end
+
+    if acceptable then
+        numbers[current_state] = numbers[current_state] .. ch
         platform.window:invalidate()
     end
 end
