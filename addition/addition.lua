@@ -4,33 +4,43 @@
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
-local state = "first_number"
-local first_number = ""
-local second_number = ""
+local current_state = 1
 
-local FIRST_NUMBER_PROMPT = "First number [enter]: " 
-local SECOND_NUMBER_PROMPT = "Second number [enter]: "
+local numbers = {"", ""}
+local prompts = {"First number [enter]: ", "Second number [enter]: "}
+local descriptions = {"1st number", "2nd number"}
 
 function on.paint(gc)
-    gc:drawString(FIRST_NUMBER_PROMPT .. first_number, 8, 62)
-
-    if state == "second_number" or state == "result" then
-        gc:drawString(SECOND_NUMBER_PROMPT .. second_number, 8, 82)
-    end
-
-    if state == "result" then
-        if tonumber(first_number) and tonumber(second_number) then
-            local result = tonumber(first_number) + tonumber(second_number)
-            gc:drawString("Addition result: " .. result, 8, 122)
-        else
-            gc:drawString("Error: Invalid input", 8, 122)
+    if current_state > #numbers then
+        -- Draw result
+        for i = 1, #numbers do
+            if not tonumber(numbers[i]) then
+                gc:drawString("Error: Invalid input for" .. descriptions[i], 8, 122)
+                return
+            end
+        end
+        local result = 0
+        for i = 1, #numbers do
+            result = result + tonumber(numbers[i])
+        end
+        for i = 1, #numbers do
+            gc:drawString(prompts[i] .. numbers[i], 8, 62 + (i - 1) * 20)
+        end
+        gc:drawString("Addition result: " .. result, 8, 122)
+    else
+        for i = 1, current_state do
+            gc:drawString(prompts[i] .. numbers[i], 8, 62 + (i - 1) * 20)
         end
     end
 end
 
 function on.charIn(ch)
-    if (ch >= "0" and ch <= "9") or (ch == "." and ((state == "first_number" and not string.find(first_number, "%.")) or (state == "second_number" and not string.find(second_number, "%.")))) or ((ch == "+" or ch == "-") and ((state == "first_number" and first_number == "") or (state == "second_number" and second_number == ""))) then
-        if (state == "first_number" and first_number == "") or (state == "second_number" and second_number == "") then
+    if (ch >= "0" and ch <= "9") or (ch == "." and ((current_state == 1 and not string.find(numbers[1], "%.")) or
+        (current_state == 2 and not string.find(numbers[2], "%.")))) or
+        ((ch == "+" or ch == "-") and
+            ((current_state == 1 and numbers[1] == "") or (current_state == 2 and numbers[2] == ""))) then
+
+        if (current_state == 1 and numbers[1] == "") or (current_state == 2 and numbers[2] == "") then
             if ch == "." then
                 ch = "0."
             end
@@ -39,36 +49,43 @@ function on.charIn(ch)
             end
         end
 
-        if state == "first_number" then
-            first_number = first_number .. ch
-        elseif state == "second_number" then
-            second_number = second_number .. ch
+        if current_state == 1 then
+            numbers[1] = numbers[1] .. ch
+        elseif current_state == 2 then
+            numbers[2] = numbers[2] .. ch
         end
+
         platform.window:invalidate()
     end
 end
 
 function on.enterKey()
-    if state == "first_number" and first_number ~= "" then
-        state = "second_number"
-    elseif state == "second_number" and second_number ~= "" then
-        state = "result"
+    if current_state > #numbers then
+        current_state = #numbers + 1
+        platform.window:invalidate()
+        return
+    end
+
+    if numbers[current_state] ~= "" then
+        current_state = current_state + 1
     end
     platform.window:invalidate()
 end
 
 function on.escapeKey()
-    first_number = ""
-    second_number = ""
-    state = "first_number"
+    for i = 1, #numbers do
+        numbers[i] = ""
+    end
+    current_state = 1
     platform.window:invalidate()
 end
 
 function on.backspaceKey()
-    if state == "first_number" and first_number ~= "" then
-        first_number = string.sub(first_number, 1, -2)
-    elseif state == "second_number" and second_number ~= "" then
-        second_number = string.sub(second_number, 1, -2)
+    if current_state > #numbers then
+        return
+    end
+    if numbers[current_state] ~= "" then
+        numbers[current_state] = string.sub(numbers[current_state], 1, -2)
     end
     platform.window:invalidate()
 end
