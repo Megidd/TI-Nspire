@@ -11,6 +11,16 @@ To develop Lua scripts for TI-Nspire™ calculators by [this guide](https://educ
 
 This repository can be used as a benchmark: https://github.com/skayo/TI-Nspire-Minesweeper
 
+# Dependencies
+
+Build the Luna executable used by our make file:
+
+```bash
+git clone https://github.com/ndless-nspire/Luna
+cd Luna/
+make
+```
+
 # Device used
 
 ![TI-Nspire™ calculator being used](https://github.com/Megidd/TI-Nspire/assets/17475482/e4e76ee5-fea1-4fa3-97b4-342a835aef4b)
