@@ -13,8 +13,8 @@ local descriptions = {"Total height", "Total width", "Thickness along height", "
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 
 function on.paint(gc)
-    gc:drawRect(10, 10, 100, 100)
-    gc:drawRect(30, 30, 60, 60)
+    gc:drawRect(10, 10 - scroll_offset, 100, 100)
+    gc:drawRect(30, 30 - scroll_offset, 60, 60)
 
     local y = 110 - scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
 
