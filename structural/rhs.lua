@@ -16,22 +16,22 @@ function on.paint(gc)
     gc:drawRect(10, 10, 100, 100)
     gc:drawRect(30, 30, 60, 60)
 
-    local y = 105 - scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
+    local y = 110 - scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
 
     if current_state > #numbers then
         -- Draw result
         for i = 1, #numbers do
-            gc:drawString(prompts[i] .. numbers[i], 8, y + 8 + (i - 1) * 20)
+            gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
             if not tonumber(numbers[i]) then
                 gc:drawString("Error: Invalid input for " .. descriptions[i], 8, y + 8 + #numbers * 20)
                 return
             end
         end
         local result = logic()
-        gc:drawString("Result: " .. result, 8, y + 8 + #numbers * 20)
+        gc:drawString("Result: " .. result, 8, y + #numbers * 20)
     else
         for i = 1, current_state do
-            gc:drawString(prompts[i] .. numbers[i], 8, y + 8 + (i - 1) * 20)
+            gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
         end
     end
 end
