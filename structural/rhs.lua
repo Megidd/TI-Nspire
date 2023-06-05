@@ -109,9 +109,9 @@ end
 function on.arrowKey(arrow) -- Add a function to handle arrow key presses
     local scroll_step = 20 -- Define the distance to scroll with each arrow key press
 
-    if arrow == "up" then
+    if arrow == "down" then
         scroll_offset = math.max(scroll_offset - scroll_step, 0)
-    elseif arrow == "down" then
+    elseif arrow == "up" then
         local max_scroll_offset = (#numbers * 20) + 20 -- Calculate the maximum scroll offset
         scroll_offset = math.min(scroll_offset + scroll_step, max_scroll_offset)
     end
