@@ -20,10 +20,7 @@ function on.paint(gc)
                 return
             end
         end
-        local result = 0
-        for i = 1, #numbers do
-            result = result + tonumber(numbers[i])
-        end
+        local result = logic()
         gc:drawString("Result: " .. result, 8, 8 + #numbers * 20)
     else
         for i = 1, current_state do
@@ -100,4 +97,14 @@ end
 
 function on.deleteKey()
     on.backspaceKey()
+end
+
+-- -- -- Logic
+
+function logic()
+    local result = 0
+    for i = 1, #numbers do
+        result = result + tonumber(numbers[i])
+    end
+    return result
 end
