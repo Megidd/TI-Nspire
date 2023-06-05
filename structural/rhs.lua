@@ -10,11 +10,13 @@ local numbers = {"", "", "", ""}
 local prompts = {"H [enter]: ", "W [enter]: ", "th [enter]: ", "tw [enter]: "}
 local descriptions = {"Total height", "Total width", "Thickness along height", "Thickness along width"}
 
+local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
+
 function on.paint(gc)
     gc:drawRect(10, 10, 100, 100)
     gc:drawRect(30, 30, 60, 60)
 
-    local y = 105
+    local y = 105 - scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
 
     if current_state > #numbers then
         -- Draw result
@@ -102,6 +104,19 @@ end
 
 function on.deleteKey()
     on.backspaceKey()
+end
+
+function on.arrowKey(arrow) -- Add a function to handle arrow key presses
+    local scroll_step = 20 -- Define the distance to scroll with each arrow key press
+
+    if arrow == "up" then
+        scroll_offset = math.max(scroll_offset - scroll_step, 0)
+    elseif arrow == "down" then
+        local max_scroll_offset = (#numbers * 20) + 20 -- Calculate the maximum scroll offset
+        scroll_offset = math.min(scroll_offset + scroll_step, max_scroll_offset)
+    end
+
+    platform.window:invalidate()
 end
 
 -- -- -- Logic
