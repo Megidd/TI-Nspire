@@ -24,7 +24,7 @@ function on.paint(gc)
         for i = 1, #numbers do
             result = result + tonumber(numbers[i])
         end
-        gc:drawString("Addition result: " .. result, 8, 8 + #numbers * 20)
+        gc:drawString("Result: " .. result, 8, 8 + #numbers * 20)
     else
         for i = 1, current_state do
             gc:drawString(prompts[i] .. numbers[i], 8, 8 + (i - 1) * 20)
