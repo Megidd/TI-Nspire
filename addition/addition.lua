@@ -14,6 +14,7 @@ function on.paint(gc)
     if current_state > #numbers then
         -- Draw result
         for i = 1, #numbers do
+            gc:drawString(prompts[i] .. numbers[i], 8, 8 + (i - 1) * 20)
             if not tonumber(numbers[i]) then
                 gc:drawString("Error: Invalid input for " .. descriptions[i], 8, 8 + #numbers * 20)
                 return
@@ -22,9 +23,6 @@ function on.paint(gc)
         local result = 0
         for i = 1, #numbers do
             result = result + tonumber(numbers[i])
-        end
-        for i = 1, #numbers do
-            gc:drawString(prompts[i] .. numbers[i], 8, 8 + (i - 1) * 20)
         end
         gc:drawString("Addition result: " .. result, 8, 8 + #numbers * 20)
     else
