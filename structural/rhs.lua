@@ -1,6 +1,6 @@
 -- -- -- Input
 local numbers = {"", "", "", ""}
-local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
+local prompts = {"h: ", "b: ", "t of h plates: ", "t of b plates: "}
 local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
 
 -- -- -- Logic
