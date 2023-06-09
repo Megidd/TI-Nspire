@@ -133,8 +133,9 @@ function logic()
     local th = tonumber(numbers[3])
     local tb = tonumber(numbers[4])
 
-    local Zx, Zy = plastic_section_modulus(b, h, tb, th)
+    local Zx = plastic_section_modulus(b, h, tb, th)
     results["plastic_section_modulus x"] = Zx
+    local Zy = plastic_section_modulus(h, b, th, tb)
     results["plastic_section_modulus y"] = Zy
     return results
 end
@@ -142,7 +143,15 @@ end
 function plastic_section_modulus(b, h, tb, th)
     local b1 = b - 2 * th
     local h1 = h - 2 * tb
-    local Zx = (b * h ^ 3 - b1 * h1 ^ 3) / (6 * h)
-    local Zy = (h * b ^ 3 - h1 * b1 ^ 3) / (6 * b)
-    return Zx, Zy
+
+    local Ah = 2 * (th * h1 / 2) -- Area of h plate
+    local Ab = (tb * b1) -- Area of b plate
+    local Dh = h1 / 2 / 2 -- Distance of h plate center from axis
+    local Db = h1 / 2 + tb / 2 -- Distance of b plate center from axis
+    local Ac = 2 * tb * th -- Area of corner
+    local Dc = h1 / 2 + tb / 2
+
+    local Zx = 2 * (Ah * Dh + Ab * Db + Ac * Dc) -- Plastic Section Modulus about x-axis
+
+    return Zx
 end
