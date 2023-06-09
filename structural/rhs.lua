@@ -133,19 +133,16 @@ function logic()
     local th = tonumber(numbers[3])
     local tb = tonumber(numbers[4])
 
-    local outer_width = b
-    local outer_height = h
-    local inner_width = b - 2 * th
-    local inner_height = h - 2 * tb
-
-    local Z1 = plastic_section_modulus(outer_width, outer_height, inner_width, inner_height)
+    local Z1 = plastic_section_modulus(b, h, tb, th)
     results["plastic_section_modulus"] = Z1
-    local Z2 = plastic_section_modulus(outer_height, outer_width, inner_height, inner_width)
+    local Z2 = plastic_section_modulus(h, b, th, tb)
     results["plastic_section_modulus other axis"] = Z2
     return results
 end
 
-function plastic_section_modulus(b, h, b1, h1)
-    local Z = (b * h ^ 3 - b1 * h1 ^ 3) / (6 * h)
+function plastic_section_modulus(b, h, tb, th)
+    local outer_area = b * h ^ 3
+    local inner_area = (b - 2 * tb) * (h - 2 * th) ^ 3
+    local Z = (outer_area - inner_area) / (6 * h)
     return Z
 end
