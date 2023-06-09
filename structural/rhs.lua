@@ -20,7 +20,7 @@ function on.paint(gc)
         for i = 1, #numbers do
             gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
             if not tonumber(numbers[i]) then
-                gc:drawString("Error: Invalid input for " .. descriptions[i], 8, y + 8 + #numbers * 20)
+                gc:drawString("Error: Invalid input for " .. descriptions[i], 8, y + i * 20)
                 return
             end
         end
