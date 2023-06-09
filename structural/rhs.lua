@@ -13,7 +13,7 @@ local descriptions = {"Total height", "Total width", "Thickness along height", "
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 
 function on.paint(gc)
-    local y = -scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
+    local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
 
     if current_state > #numbers then
         -- Draw result
@@ -112,9 +112,9 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
     local scroll_step = 20 -- Define the distance to scroll with each arrow key press
 
     if arrow == "down" then
-        scroll_offset = scroll_offset - scroll_step
-    elseif arrow == "up" then
         scroll_offset = scroll_offset + scroll_step
+    elseif arrow == "up" then
+        scroll_offset = scroll_offset - scroll_step
     end
 
     platform.window:invalidate()
