@@ -1,15 +1,9 @@
--- '2.4' is for OS 3.7
--- Our OS is 3.9 so it's good.
+-- '2.4' is for OS 3.7 and our OS is 3.9 so it's good.
 -- reference:
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
 local current_state = 1
-
-local numbers = {"", "", "", ""}
-local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
-local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
-
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 
 function on.paint(gc)
@@ -119,6 +113,12 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
 
     platform.window:invalidate()
 end
+
+-- -- -- Input
+
+local numbers = {"", "", "", ""}
+local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
+local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
 
 -- -- -- Logic
 
