@@ -53,7 +53,7 @@ function on.paint(gc)
     if help == true then
         for i = 1, #numbers do
             gc:drawString(prompts[i], x + 8, y + (2 * i + 0) * 20)
-            gc:drawString("Description: " .. descriptions[i], x + 8, y + (2 * i + 1) * 20)
+            gc:drawString(descriptions[i], x + 8, y + (2 * i + 1) * 20)
         end
         return
     end
