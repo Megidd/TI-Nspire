@@ -42,28 +42,30 @@ platform.apiLevel = '2.4'
 
 local current_state = 1
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
+local scroll_offset_x = 0
 
 function on.paint(gc)
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
+    local x = scroll_offset_x
 
     if current_state > #numbers then
         -- Draw result
         for i = 1, #numbers do
-            gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
+            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
             if not tonumber(numbers[i]) then
-                gc:drawString("Error: Invalid input for " .. descriptions[i], 8, y + i * 20)
+                gc:drawString("Error: Invalid input for " .. descriptions[i], x + 8, y + i * 20)
                 return
             end
         end
         local results = logic()
         local index = 1
         for key, value in pairs(results) do
-            gc:drawString(key .. " : " .. value, 8, y + #numbers * 20 + (index - 1) * 20)
+            gc:drawString(key .. " : " .. value, x + 8, y + #numbers * 20 + (index - 1) * 20)
             index = index + 1
         end
     else
         for i = 1, current_state do
-            gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
+            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
         end
     end
 end
@@ -146,6 +148,10 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
         scroll_offset = scroll_offset + scroll_step
     elseif arrow == "up" then
         scroll_offset = scroll_offset - scroll_step
+    elseif arrow == "left" then
+        scroll_offset_x = scroll_offset_x - scroll_step
+    elseif arrow == "right" then
+        scroll_offset_x = scroll_offset_x + scroll_step
     end
 
     platform.window:invalidate()
