@@ -43,10 +43,20 @@ platform.apiLevel = '2.4'
 local current_state = 1
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
+local help = false
 
 function on.paint(gc)
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
+
+    -- Just show help and return.
+    if help == true then
+        for i = 1, #numbers do
+            gc:drawString(prompts[i], x + 8, y + (2 * i + 0) * 20)
+            gc:drawString("Description: " .. descriptions[i], x + 8, y + (2 * i + 1) * 20)
+        end
+        return
+    end
 
     if current_state > #numbers then
         -- Draw result
@@ -154,5 +164,10 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
         scroll_offset_x = scroll_offset_x + scroll_step
     end
 
+    platform.window:invalidate()
+end
+
+function on.tabKey()
+    help = not help
     platform.window:invalidate()
 end
