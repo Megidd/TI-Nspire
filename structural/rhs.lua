@@ -134,6 +134,8 @@ function on.escapeKey()
     end
     current_state = 1
     scroll_offset = 0
+    scroll_offset_x = 0
+    help = false
     platform.window:invalidate()
 end
 
