@@ -27,8 +27,12 @@ function on.paint(gc)
                 return
             end
         end
-        local result = logic()
-        gc:drawString("Result: " .. result, 8, y + #numbers * 20)
+        local results = logic()
+        local index = 1
+        for key, value in pairs(results) do
+            gc:drawString(key .. " : " .. value, 8, y + #numbers * 20 + (index - 1) * 20)
+            index = index + 1
+        end
     else
         for i = 1, current_state do
             gc:drawString(prompts[i] .. numbers[i], 8, y + (i - 1) * 20)
@@ -122,6 +126,8 @@ end
 -- -- -- Logic
 
 function logic()
+    local results = {}
+
     local h = tonumber(numbers[1])
     local b = tonumber(numbers[2])
     local th = tonumber(numbers[3])
@@ -132,8 +138,10 @@ function logic()
     local inner_width = b - 2 * th
     local inner_height = h - 2 * tb
 
-    local result = plastic_section_modulus(outer_width, outer_height, inner_width, inner_height)
-    return result
+    local Z = plastic_section_modulus(outer_width, outer_height, inner_width, inner_height)
+    results["plastic_section_modulus"] = Z
+    results["plastic_section_modulus other axis"] = 0.88
+    return results
 end
 
 function plastic_section_modulus(b, h, b1, h1)
