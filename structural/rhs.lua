@@ -7,7 +7,7 @@ platform.apiLevel = '2.4'
 local current_state = 1
 
 local numbers = {"", "", "", ""}
-local prompts = {"h [enter]: ", "b [enter]: ", "th [enter]: ", "tb [enter]: "}
+local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
 local descriptions = {"Total height", "Total width", "Thickness along height", "Thickness along width"}
 
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
@@ -140,8 +140,8 @@ function logic()
 end
 
 function plastic_section_modulus(b, h, tb, th)
-    local b1 = b - 2 * tb
-    local h1 = h - 2 * th
+    local b1 = b - 2 * th
+    local h1 = h - 2 * tb
     local Zx = (b * h ^ 3 - b1 * h1 ^ 3) / (6 * h)
     local Zy = (h * b ^ 3 - h1 * b1 ^ 3) / (6 * b)
     return Zx, Zy
