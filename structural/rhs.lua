@@ -144,14 +144,12 @@ function plastic_section_modulus(b, h, tb, th)
     local b1 = b - 2 * th
     local h1 = h - 2 * tb
 
-    local Ah = 2 * (th * h1 / 2) -- Area of h plate
-    local Ab = (tb * b1) -- Area of b plate
-    local Dh = h1 / 2 / 2 -- Distance of h plate center from axis
-    local Db = h1 / 2 + tb / 2 -- Distance of b plate center from axis
-    local Ac = 2 * tb * th -- Area of corner
-    local Dc = h1 / 2 + tb / 2
+    local Af = b * h / 2 -- Area: full
+    local Anf = b1 * h1 / 2 -- Area: hollow
+    local Df = h / 2 / 2 -- Distance of center from axis
+    local Dnf = h1 / 2 / 2 -- Distance of center from axis
 
-    local Zx = 2 * (Ah * Dh + Ab * Db + Ac * Dc) -- Plastic Section Modulus about x-axis
+    local Zx = 2 * (Af * Df - Anf * Dnf) -- Plastic Section Modulus about x-axis
 
     return Zx
 end
