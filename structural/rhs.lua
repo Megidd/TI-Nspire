@@ -90,6 +90,7 @@ function on.escapeKey()
         numbers[i] = ""
     end
     current_state = 1
+    scroll_offset = 0
     platform.window:invalidate()
 end
 
