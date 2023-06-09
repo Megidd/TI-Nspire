@@ -138,9 +138,10 @@ function logic()
     local inner_width = b - 2 * th
     local inner_height = h - 2 * tb
 
-    local Z = plastic_section_modulus(outer_width, outer_height, inner_width, inner_height)
-    results["plastic_section_modulus"] = Z
-    results["plastic_section_modulus other axis"] = 0.88
+    local Z1 = plastic_section_modulus(outer_width, outer_height, inner_width, inner_height)
+    results["plastic_section_modulus"] = Z1
+    local Z2 = plastic_section_modulus(outer_height, outer_width, inner_height, inner_width)
+    results["plastic_section_modulus other axis"] = Z2
     return results
 end
 
