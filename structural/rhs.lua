@@ -8,7 +8,7 @@ local current_state = 1
 
 local numbers = {"", "", "", ""}
 local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
-local descriptions = {"Total height", "Total width", "Thickness along height", "Thickness along width"}
+local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
 
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 
