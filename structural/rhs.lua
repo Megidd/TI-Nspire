@@ -1,6 +1,4 @@
--- '2.4' is for OS 3.7
--- Our OS is 3.9 so it's good.
--- reference:
+-- '2.4' is for OS 3.7 and our OS is 3.9 so it's good.
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
