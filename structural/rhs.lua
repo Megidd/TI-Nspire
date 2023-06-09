@@ -1,13 +1,47 @@
--- '2.4' is for OS 3.7 and our OS is 3.9 so it's good.
--- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
-platform.apiLevel = '2.4'
-
-local current_state = 1
+-- -- -- Input
 
 local numbers = {"", "", "", ""}
 local prompts = {"h [enter]: ", "b [enter]: ", "t of h plates [enter]: ", "t of b plates [enter]: "}
 local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
 
+-- -- -- Logic
+
+function logic()
+    local results = {}
+
+    local h = tonumber(numbers[1])
+    local b = tonumber(numbers[2])
+    local th = tonumber(numbers[3])
+    local tb = tonumber(numbers[4])
+
+    local Zx = plastic_section_modulus(b, h, tb, th)
+    results["plastic_section_modulus x"] = Zx
+    local Zy = plastic_section_modulus(h, b, th, tb)
+    results["plastic_section_modulus y"] = Zy
+    return results
+end
+
+function plastic_section_modulus(b, h, tb, th)
+    local b1 = b - 2 * th
+    local h1 = h - 2 * tb
+
+    local Af = b * h / 2 -- Area: full
+    local Anf = b1 * h1 / 2 -- Area: hollow
+    local Df = h / 2 / 2 -- Distance of center from axis
+    local Dnf = h1 / 2 / 2 -- Distance of center from axis
+
+    local Zx = 2 * (Af * Df - Anf * Dnf) -- Plastic Section Modulus about x-axis
+
+    return Zx
+end
+
+-- -- -- Common code
+
+-- '2.4' is for OS 3.7 and our OS is 3.9 so it's good.
+-- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
+platform.apiLevel = '2.4'
+
+local current_state = 1
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 
 function on.paint(gc)
@@ -116,35 +150,4 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
     end
 
     platform.window:invalidate()
-end
-
--- -- -- Logic
-
-function logic()
-    local results = {}
-
-    local h = tonumber(numbers[1])
-    local b = tonumber(numbers[2])
-    local th = tonumber(numbers[3])
-    local tb = tonumber(numbers[4])
-
-    local Zx = plastic_section_modulus(b, h, tb, th)
-    results["plastic_section_modulus x"] = Zx
-    local Zy = plastic_section_modulus(h, b, th, tb)
-    results["plastic_section_modulus y"] = Zy
-    return results
-end
-
-function plastic_section_modulus(b, h, tb, th)
-    local b1 = b - 2 * th
-    local h1 = h - 2 * tb
-
-    local Af = b * h / 2 -- Area: full
-    local Anf = b1 * h1 / 2 -- Area: hollow
-    local Df = h / 2 / 2 -- Distance of center from axis
-    local Dnf = h1 / 2 / 2 -- Distance of center from axis
-
-    local Zx = 2 * (Af * Df - Anf * Dnf) -- Plastic Section Modulus about x-axis
-
-    return Zx
 end
