@@ -142,7 +142,7 @@ end
 function plastic_section_modulus(b, h, tb, th)
     local b1 = b - 2 * tb
     local h1 = h - 2 * th
-    local Zx = (b * h^3 - b1 * h1^3) / (6 * h)
-    local Zy = (h * b^3 - h1 * b1^3) / (6 * b)
+    local Zx = (b * h ^ 3 - b1 * h1 ^ 3) / (6 * h)
+    local Zy = (h * b ^ 3 - h1 * b1 ^ 3) / (6 * b)
     return Zx, Zy
-  end
+end
