@@ -1,37 +1,34 @@
 -- -- -- Input
-local numbers = {"", "", "", ""}
-local prompts = {"h: ", "b: ", "t of h plates: ", "t of b plates: "}
-local descriptions = {"Total height", "Total width", "Thickness of height plate", "Thickness of width plate"}
+local numbers = {"", "", "", "", ""}
+local prompts = {"Fu: ", "Fy: ", "Ant: ", "Agv: ", "Anv: "}
+local descriptions = {"trivial", "trivial", "trivial", "trivial"}
 
 -- -- -- Logic
 
 function logic()
     local results = {}
 
-    local h = tonumber(numbers[1])
-    local b = tonumber(numbers[2])
-    local th = tonumber(numbers[3])
-    local tb = tonumber(numbers[4])
+    local Fu = tonumber(numbers[1])
+    local Fy = tonumber(numbers[2])
+    local Ant = tonumber(numbers[3])
+    local Agv = tonumber(numbers[4])
+    local Anv = tonumber(numbers[5])
 
-    local Zx = plastic_section_modulus(b, h, tb, th)
-    results["plastic_section_modulus x"] = Zx
-    local Zy = plastic_section_modulus(h, b, th, tb)
-    results["plastic_section_modulus y"] = Zy
+    local Rn = available_strength()
+    results["Rn"] = Rn
+    local Max = max_strength()
+    results["Max"] = Max
     return results
 end
 
-function plastic_section_modulus(b, h, tb, th)
-    local b1 = b - 2 * th
-    local h1 = h - 2 * tb
+function available_strength()
+    -- TODO.
+    return 0
+end
 
-    local Af = b * h / 2 -- Area: full
-    local Anf = b1 * h1 / 2 -- Area: hollow
-    local Df = h / 2 / 2 -- Distance of center from axis
-    local Dnf = h1 / 2 / 2 -- Distance of center from axis
-
-    local Zx = 2 * (Af * Df - Anf * Dnf) -- Plastic Section Modulus about x-axis
-
-    return Zx
+function max_strength()
+    -- TODO.
+    return 0
 end
 
 -- -- -- Common code
