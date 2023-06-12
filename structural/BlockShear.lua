@@ -1,7 +1,7 @@
 -- -- -- Input
 local numbers = {"", "", "", "", ""}
 local prompts = {"Fu: ", "Fy: ", "Ant: ", "Agv: ", "Anv: "}
-local descriptions = {"trivial", "trivial", "trivial", "trivial"}
+local descriptions = {"trivial", "trivial", "trivial", "trivial", "trivial"}
 
 -- -- -- Logic
 
