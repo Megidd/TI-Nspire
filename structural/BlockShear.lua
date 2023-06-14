@@ -1,7 +1,9 @@
 -- -- -- Input
-local numbers = {"", "", "", "", ""}
-local prompts = {"Fu: ", "Fy: ", "Ant: ", "Agv: ", "Anv: "}
-local descriptions = {"trivial", "trivial", "trivial", "trivial", "trivial"}
+local numbers = {"", "", "", "", "", "", ""}
+local prompts = {"Fu: ", "Fy: ", "Ant: ", "Agv: ", "Anv: ", "Ubs: ", "Phi (0.75): "}
+local descriptions = {"trivial", "trivial", "trivial", "trivial", "trivial",
+                      "Where the tension stress is uniform, Ubs = 1; where the tension stress is nonuniform, Ubs = 0.5.",
+                      "φ=0.75 (LRFD)"}
 
 -- -- -- Logic
 
@@ -13,22 +15,24 @@ function logic()
     local Ant = tonumber(numbers[3])
     local Agv = tonumber(numbers[4])
     local Anv = tonumber(numbers[5])
+    local Ubs = tonumber(numbers[6])
+    local Phi = tonumber(numbers[7])
 
-    local Rn = available_strength()
-    results["Rn"] = Rn
-    local Max = max_strength()
-    results["Max"] = Max
+    local Rn = available_strength(Fu, Anv, Ant, Ubs)
+    results["Phi * Rn"] = Phi * Rn
+    local Max = max_strength(Fy, Agv, Fu, Ant, Ubs)
+    results["Phi * Max"] = Phi * Max
     return results
 end
 
-function available_strength()
-    -- TODO.
-    return 0
+function available_strength(Fu, Anv, Ant, Ubs)
+    local Rn = 0.60 * Fu * Anv + Ubs * Fu * Ant
+    return Rn
 end
 
-function max_strength()
-    -- TODO.
-    return 0
+function max_strength(Fy, Agv, Fu, Ant, Ubs)
+    local max = 0.60 * Fy * Agv + Ubs * Fu * Ant
+    return max
 end
 
 -- -- -- Common code
