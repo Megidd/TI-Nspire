@@ -1,36 +1,33 @@
 platform.apilevel = '2.2'
 
-desc1, error = D2Editor.newRichText():resize(200, 40)
-desc1:move(0, 0):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true):setSelectable(false)
-    :setTextColor(0x666666):setVisible(true)
-result, error = desc1:setText('Ant [net tension area]')
+eP, error = D2Editor.newRichText():resize(200, 40)
+eP:move(0, 0):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true):setSelectable(false):setTextColor(
+    0x666666):setVisible(true)
+result, error = eP:setText('Ant [net tension area]')
 
-ed1, error = D2Editor.newRichText():resize(200, 40)
-ed1:move(0, 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
+eE, error = D2Editor.newRichText():resize(200, 40)
+eE:move(0, 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
     :setTextColor(0x000000):setVisible(true)
-result, error = ed1:setText('0.0')
-str, pos, sel, error = ed1:getExpressionSelection()
--- ed1:createMathBox()
+result, error = eE:setText('0.0')
 
-ed2, error = D2Editor.newRichText():resize(200, 40)
-ed2:move(0, 100):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
+eR, error = D2Editor.newRichText():resize(200, 40)
+eR:move(0, 100):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
     :setTextColor(0x000000):setVisible(true)
--- d2e2:createMathBox()
 
-ed3, error = D2Editor.newRichText():resize(200, 40)
-ed3:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true):setSelectable(false)
+eD, error = D2Editor.newRichText():resize(200, 40)
+eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true):setSelectable(true)
     :setTextColor(0x666666):setVisible(true)
 
 -- To evaluate the expression
 function run()
-    local expression = ed1:getExpression()
-    ed3:setText(expression)
+    local expression = eE:getExpression()
+    eD:setText(expression)
     local result, err = math.evalStr(expression)
     if err ~= nil then
         show_error(err)
         return
     end
-    ed2:setText("Result: " .. result)
+    eR:setText("Result: " .. result)
 end
 
 function on.escapeKey()
@@ -40,6 +37,6 @@ end
 function show_error(err)
     if err == nil then
     else
-        ed2:setText("Error: " .. err)
+        eR:setText("Error: " .. err)
     end
 end
