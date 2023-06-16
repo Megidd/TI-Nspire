@@ -15,7 +15,7 @@ eR:move(0, 100):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnl
     :setTextColor(0x000000):setVisible(true)
 
 eD, error = D2Editor.newRichText():resize(300, 40)
-eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true):setSelectable(true)
+eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(6):setReadOnly(true):setSelectable(true)
     :setTextColor(0x666666):setVisible(true)
 
 -- To evaluate the expression
