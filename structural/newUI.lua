@@ -24,12 +24,12 @@ ed3:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOn
 -- To evaluate the expression
 function run()
     local expression = ed1:getExpression()
+    ed3:setText(expression)
     local result, err = math.evalStr(expression)
     if err ~= nil then
         show_error(err)
         return
     end
-    ed3:setText(expression)
     ed2:setText("Result: " .. result)
 end
 
