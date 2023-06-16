@@ -20,11 +20,10 @@ eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnl
 
 -- To evaluate the expression
 function run()
-    local markup = mbE:getExpression()
+    local mu = mbE:getExpression()
     -- Math Box markup is "\0el {...}"
-    -- Get everything between the curly braces
-    local E = markup:match("{(.*)}")
-    eD:setText("markup:" .. markup .. "   string:" .. E)
+    local E = delete_markup(mu)
+    eD:setText("markup:" .. mu .. "   string:" .. E)
     local result, err = math.evalStr(E)
     if err ~= nil then
         show_error(err)
@@ -42,4 +41,10 @@ function show_error(err)
     else
         eR:setText("Error: " .. err)
     end
+end
+
+function delete_markup(strI)
+    -- Remove all occurrences of "\0el {" and "}" inside string
+    local strO = strI:gsub("\\0el {(.-)}", "%1")
+    return strO
 end
