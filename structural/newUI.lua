@@ -8,7 +8,7 @@ result, error = eP:setText('Ant [net tension area]')
 eE, error = D2Editor.newRichText():resize(200, 40)
 eE:move(0, 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
     :setTextColor(0x000000):setVisible(true)
-result, error = eE:setText('0.0')
+mbE = eE:createMathBox() -- Math Box
 
 eR, error = D2Editor.newRichText():resize(200, 40)
 eR:move(0, 100):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false):setSelectable(true)
@@ -20,9 +20,12 @@ eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnl
 
 -- To evaluate the expression
 function run()
-    local expression = eE:getExpression()
-    eD:setText(expression)
-    local result, err = math.evalStr(expression)
+    local markup = mbE:getExpression()
+    -- Math Box markup is "\0el {...}"
+    -- Get everything between the curly braces
+    local E = markup:match("{(.*)}")
+    eD:setText("markup:" .. markup .. "   string:" .. E)
+    local result, err = math.evalStr(E)
     if err ~= nil then
         show_error(err)
         return
