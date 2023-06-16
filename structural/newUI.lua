@@ -20,7 +20,6 @@ eD:move(0, 150):setBorder(1):setBorderColor(0x43adee):setFontSize(6):setReadOnly
 -- To evaluate the expression
 function run()
     local general = eE:getExpression()
-    -- Math Box markup is "\0el {...}"
     local E = delete_markup(general)
     eD:setText("markup:" .. general .. "   string:" .. E)
     local result, err = math.evalStr(E)
@@ -43,6 +42,7 @@ function show_error(err)
 end
 
 function delete_markup(strI)
+    -- Math Box markup is "\0el {...}"
     -- Remove all occurrences of "\0el {" and "}" inside string
     local strO = strI:gsub("\\0el {(.-)}", "%1")
     return strO
