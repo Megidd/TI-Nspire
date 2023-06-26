@@ -49,6 +49,23 @@ function on.paint(gc)
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
 
+    local inputs = {}
+
+    for i = 1, #numbers do
+        local eP, error = D2Editor.newRichText():resize(300, 40)
+        eP:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+            :setSelectable(false):setTextColor(0x666666):setVisible(true)
+        eP:setText(prompts[i] .. "  " .. descriptions[i])
+
+        local eI, error = D2Editor.newRichText():resize(300, 40)
+        eI:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+            :setSelectable(true):setTextColor(0x000000):setVisible(true)
+        eI:setText(prompts[i] .. "  " .. descriptions[i])
+
+        inputs[2 * i + 0] = eP
+        inputs[2 * i + 1] = eI
+    end
+
     -- Just show help and return.
     if help == true then
         for i = 1, #numbers do
