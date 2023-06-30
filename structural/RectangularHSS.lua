@@ -43,7 +43,6 @@ platform.apiLevel = '2.4'
 local current_state = 1
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
-local help = false
 
 local editors = {}
 
@@ -76,15 +75,6 @@ function on.paint(gc)
 
         eP:move(x + 8, y + (2 * i + 0) * 50)
         eI:move(x + 8, y + (2 * i + 1) * 50)
-    end
-
-    -- Just show help and return.
-    if help == true then
-        for i = 1, #numbers do
-            gc:drawString(prompts[i], x + 8, y + (2 * i + 0) * 20)
-            gc:drawString(descriptions[i], x + 8, y + (2 * i + 1) * 20)
-        end
-        return
     end
 
     if current_state > #numbers then
