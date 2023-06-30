@@ -40,7 +40,6 @@ end
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
-local current_state = 1
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
 
@@ -97,15 +96,6 @@ function on.paint(gc)
 end
 
 function on.enterKey()
-    if current_state > #numbers then
-        current_state = #numbers + 1
-        platform.window:invalidate()
-        return
-    end
-
-    if numbers[current_state] ~= "" then
-        current_state = current_state + 1
-    end
     platform.window:invalidate()
 end
 
@@ -113,20 +103,12 @@ function on.escapeKey()
     for i = 1, #numbers do
         numbers[i] = ""
     end
-    current_state = 1
     scroll_offset = 0
     scroll_offset_x = 0
-    help = false
     platform.window:invalidate()
 end
 
 function on.backspaceKey()
-    if current_state > #numbers then
-        return
-    end
-    if numbers[current_state] ~= "" then
-        numbers[current_state] = string.sub(numbers[current_state], 1, -2)
-    end
     platform.window:invalidate()
 end
 
