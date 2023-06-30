@@ -77,25 +77,22 @@ function on.paint(gc)
         eI:move(x + 8, y + (2 * i + 1) * 50)
     end
 
-    if current_state > #numbers then
-        -- Draw result
-        for i = 1, #numbers do
-            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
-            if not tonumber(numbers[i]) then
-                gc:drawString("Error: Invalid input for " .. descriptions[i], x + 8, y + i * 20)
-                return
-            end
+    local yOffset = y + #numbers * 100
+
+    -- Draw 1st error and return.
+    for i = 1, #numbers do
+        if not tonumber(numbers[i]) then
+            gc:drawString("Error: Invalid input for " .. descriptions[i], x + 8, yOffset)
+            return
         end
-        local results = logic()
-        local index = 1
-        for key, value in pairs(results) do
-            gc:drawString(key .. " : " .. value, x + 8, y + #numbers * 20 + (index - 1) * 20)
-            index = index + 1
-        end
-    else
-        for i = 1, current_state do
-            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
-        end
+    end
+
+    -- Draw results, no errors are encountered.
+    local results = logic()
+    local index = 1
+    for key, value in pairs(results) do
+        gc:drawString(key .. " : " .. value, x + 8, yOffset + (index - 1) * 20)
+        index = index + 1
     end
 end
 
