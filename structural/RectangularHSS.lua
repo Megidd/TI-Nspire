@@ -152,8 +152,3 @@ function on.arrowKey(arrow) -- Add a function to handle arrow key presses
 
     platform.window:invalidate()
 end
-
-function on.tabKey()
-    help = not help
-    platform.window:invalidate()
-end
