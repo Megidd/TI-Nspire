@@ -99,41 +99,6 @@ function on.paint(gc)
     end
 end
 
-function on.charIn(ch)
-    if current_state > #numbers then
-        return
-    end
-
-    local acceptable = false
-
-    if ch >= "0" and ch <= "9" then
-        acceptable = true
-    end
-
-    if ch == "." then
-        if not string.find(numbers[current_state], "%.") then
-            acceptable = true
-        end
-    end
-
-    if ch == "+" or ch == "-" then
-        if numbers[current_state] == "" then
-            acceptable = true
-        end
-    end
-
-    if numbers[current_state] == "" or numbers[current_state] == "+" or numbers[current_state] == "-" then
-        if ch == "." then
-            ch = "0."
-        end
-    end
-
-    if acceptable then
-        numbers[current_state] = numbers[current_state] .. ch
-        platform.window:invalidate()
-    end
-end
-
 function on.enterKey()
     if current_state > #numbers then
         current_state = #numbers + 1
