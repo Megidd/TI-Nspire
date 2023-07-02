@@ -85,7 +85,9 @@ function on.paint(gc)
     end
 
     local yOffset = y + #prompts * 100
+end
 
+function run()
     -- Draw results.
     local results = logic()
 
@@ -100,23 +102,11 @@ function on.paint(gc)
     end
 end
 
-function on.enterKey()
-    platform.window:invalidate()
-end
-
-function on.escapeKey()
+function reset()
     state_error = nil
     scroll_offset = 0
     scroll_offset_x = 0
     platform.window:invalidate()
-end
-
-function on.backspaceKey()
-    platform.window:invalidate()
-end
-
-function on.deleteKey()
-    on.backspaceKey()
 end
 
 function on.tabKey()
@@ -165,7 +155,10 @@ function input_numbers()
             return nil
         end
         table.insert(numbers, number)
-        print(number)
     end
     return numbers
 end
+
+menu = {{"Mange", {"Run", run}, "-", {"Reset", reset}}}
+
+toolpalette.register(menu)
