@@ -120,7 +120,8 @@ function run()
     -- Draw results.
     local results = logic()
 
-    if results == nil or next(results) == nil then
+    if results == nil or next(results) == nil or table.getn(results) ~= #outputs then
+        show_error("results count is not as expected:" .. tostring(#outputs))
         return
     end
 
