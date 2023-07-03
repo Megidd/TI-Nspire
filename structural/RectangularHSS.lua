@@ -12,9 +12,9 @@ function logic()
     end
 
     local Zx = plastic_section_modulus(numbers[2], numbers[1], numbers[4], numbers[3])
-    table.insert(results, Zx)
+    results[outputs[1]] = Zx
     local Zy = plastic_section_modulus(numbers[1], numbers[2], numbers[3], numbers[4])
-    table.insert(results, Zy)
+    results[outputs[2]] = Zy
     return results
 end
 
@@ -124,10 +124,11 @@ function run()
         return
     end
 
-    for i, v in ipairs(results) do
+    for i = 1, #outputs do
         local eP = richTxt[2 * i + 0]
         local eI = richTxt[2 * i + 1]
-        eI:setText(v)
+
+        eI:setText(results[outputs[i]])
     end
 end
 
