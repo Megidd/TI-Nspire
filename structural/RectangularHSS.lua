@@ -145,6 +145,7 @@ function reset()
     state_error = nil
     scroll_offset = 0
     scroll_offset_x = 0
+    -- TODO: clear results.
     platform.window:invalidate()
 end
 
