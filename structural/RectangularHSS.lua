@@ -12,9 +12,9 @@ function logic()
     end
 
     local Zx = plastic_section_modulus(numbers[2], numbers[1], numbers[4], numbers[3])
-    results["plastic_section_modulus x"] = Zx
+    table.insert(results, Zx)
     local Zy = plastic_section_modulus(numbers[1], numbers[2], numbers[3], numbers[4])
-    results["plastic_section_modulus y"] = Zy
+    table.insert(results, Zy)
     return results
 end
 
@@ -43,12 +43,14 @@ local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
 
 local editors = {}
+local richTxt = {}
 
 -- Create the rich text editors outside of the on.paint(gc) function and
 -- only update their positions.
 for i = 1, #prompts do
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
+
     local eP, error = D2Editor.newRichText():resize(300, 40)
     eP:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
@@ -61,6 +63,24 @@ for i = 1, #prompts do
 
     editors[2 * i + 0] = eP
     editors[2 * i + 1] = eI
+end
+
+for i = 1, #outputs do
+    local y = scroll_offset + #prompts * 100
+    local x = scroll_offset_x
+
+    local eP, error = D2Editor.newRichText():resize(300, 40)
+    eP:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+        :setSelectable(false):setTextColor(0x666666):setVisible(true)
+    eP:setText(outputs[i])
+
+    local eI, error = D2Editor.newRichText():resize(300, 40)
+    eI:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+        :setSelectable(true):setTextColor(0x000000):setVisible(true)
+    eI:setText("0")
+
+    richTxt[2 * i + 0] = eP
+    richTxt[2 * i + 1] = eI
 end
 
 function on.paint(gc)
@@ -85,7 +105,15 @@ function on.paint(gc)
         eI:move(x + 8, y + (2 * i + 1) * 50)
     end
 
-    local yOffset = y + #prompts * 100
+    y = y + #prompts * 100
+
+    for i = 1, #outputs do
+        local eP = richTxt[2 * i + 0]
+        local eI = richTxt[2 * i + 1]
+
+        eP:move(x + 8, y + (2 * i + 0) * 50)
+        eI:move(x + 8, y + (2 * i + 1) * 50)
+    end
 end
 
 function run()
@@ -96,10 +124,10 @@ function run()
         return
     end
 
-    local index = 1
-    for key, value in pairs(results) do
-        gc:drawString(key .. " : " .. value, x + 8, yOffset + (index - 1) * 20)
-        index = index + 1
+    for i, v in ipairs(results) do
+        local eP = richTxt[2 * i + 0]
+        local eI = richTxt[2 * i + 1]
+        eI:setText(v)
     end
 end
 
