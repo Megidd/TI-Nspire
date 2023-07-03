@@ -159,6 +159,6 @@ function input_numbers()
     return numbers
 end
 
-menu = {{"Mange", {"Run", run}, "-", {"Reset", reset}}}
+menu = {{"Manage", {"Run", run}, "-", {"Reset", reset}}}
 
 toolpalette.register(menu)
