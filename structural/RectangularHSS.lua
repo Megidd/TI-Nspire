@@ -1,5 +1,6 @@
 -- Affects drawing.
 local prompts = {"Total height h", "Total width b", "Thick. of height plate", "Thick. of width plate"}
+local outputs = {"plastic_section_modulus x", "plastic_section_modulus y"}
 
 function logic()
     local results = {}
