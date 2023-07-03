@@ -51,36 +51,36 @@ for i = 1, #prompts do
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
 
-    local eP, error = D2Editor.newRichText():resize(300, 40)
-    eP:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    local eK, error = D2Editor.newRichText():resize(300, 40)
+    eK:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
-    eP:setText(prompts[i])
+    eK:setText(prompts[i])
 
-    local eI, error = D2Editor.newRichText():resize(300, 40)
-    eI:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+    local eV, error = D2Editor.newRichText():resize(300, 40)
+    eV:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
         :setSelectable(true):setTextColor(0x000000):setVisible(true)
-    eI:setText("0")
+    eV:setText("0")
 
-    editors[2 * i + 0] = eP
-    editors[2 * i + 1] = eI
+    editors[2 * i + 0] = eK
+    editors[2 * i + 1] = eV
 end
 
 for i = 1, #outputs do
     local y = scroll_offset + #prompts * 100
     local x = scroll_offset_x
 
-    local eP, error = D2Editor.newRichText():resize(300, 40)
-    eP:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    local eK, error = D2Editor.newRichText():resize(300, 40)
+    eK:move(x + 8, y + (2 * i + 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
-    eP:setText(outputs[i])
+    eK:setText(outputs[i])
 
-    local eI, error = D2Editor.newRichText():resize(300, 40)
-    eI:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+    local eV, error = D2Editor.newRichText():resize(300, 40)
+    eV:move(x + 8, y + (2 * i + 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
         :setSelectable(true):setTextColor(0x000000):setVisible(true)
-    eI:setText("0")
+    eV:setText("0")
 
-    richTxt[2 * i + 0] = eP
-    richTxt[2 * i + 1] = eI
+    richTxt[2 * i + 0] = eK
+    richTxt[2 * i + 1] = eV
 end
 
 function on.paint(gc)
@@ -98,21 +98,21 @@ function on.paint(gc)
     local x = scroll_offset_x
 
     for i = 1, #prompts do
-        local eP = editors[2 * i + 0]
-        local eI = editors[2 * i + 1]
+        local eK = editors[2 * i + 0]
+        local eV = editors[2 * i + 1]
 
-        eP:move(x + 8, y + (2 * i + 0) * 50)
-        eI:move(x + 8, y + (2 * i + 1) * 50)
+        eK:move(x + 8, y + (2 * i + 0) * 50)
+        eV:move(x + 8, y + (2 * i + 1) * 50)
     end
 
     y = y + #prompts * 100
 
     for i = 1, #outputs do
-        local eP = richTxt[2 * i + 0]
-        local eI = richTxt[2 * i + 1]
+        local eK = richTxt[2 * i + 0]
+        local eV = richTxt[2 * i + 1]
 
-        eP:move(x + 8, y + (2 * i + 0) * 50)
-        eI:move(x + 8, y + (2 * i + 1) * 50)
+        eK:move(x + 8, y + (2 * i + 0) * 50)
+        eV:move(x + 8, y + (2 * i + 1) * 50)
     end
 end
 
@@ -126,10 +126,10 @@ function run()
     end
 
     for i = 1, #outputs do
-        local eP = richTxt[2 * i + 0]
-        local eI = richTxt[2 * i + 1]
+        local eK = richTxt[2 * i + 0]
+        local eV = richTxt[2 * i + 1]
 
-        eI:setText(results[outputs[i]])
+        eV:setText(results[outputs[i]])
     end
 end
 
@@ -173,9 +173,9 @@ end
 function input_numbers()
     local numbers = {}
     for i = 1, #prompts do
-        local eP = editors[2 * i + 0]
-        local eI = editors[2 * i + 1]
-        local general = eI:getExpression()
+        local eK = editors[2 * i + 0]
+        local eV = editors[2 * i + 1]
+        local general = eV:getExpression()
         local E = delete_markup(general)
         if E == nil then
             return nil
