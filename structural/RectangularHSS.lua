@@ -75,8 +75,8 @@ for i = 1, #outputs do
     eK:setText(outputs[i])
 
     local eV, error = D2Editor.newRichText():resize(300, 40)
-    eV:move(x + 8, y + (2 * i - 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
-        :setSelectable(true):setTextColor(0x000000):setVisible(true)
+    eV:move(x + 8, y + (2 * i - 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+        :setSelectable(true):setTextColor(0x888888):setVisible(true)
     eV:setText("0")
 
     richTxt[2 * i - 1] = eK
