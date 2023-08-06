@@ -38,6 +38,9 @@ end
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
+local pageW = platform.window:width()
+local pageH = platform.window:height()
+
 local state_error = nil
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
@@ -53,13 +56,13 @@ for i = 1, #prompts do
 
     -- TODO: Change height and font size.
 
-    local eK, error = D2Editor.newRichText():resize(300, 40)
-    eK:move(x + 8, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    local eK, error = D2Editor.newRichText():resize(pageW*0.9, 40)
+    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(prompts[i])
 
-    local eV, error = D2Editor.newRichText():resize(300, 40)
-    eV:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+    local eV, error = D2Editor.newRichText():resize(pageW*0.9, 40)
+    eV:move(x + pageW*0.05, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
         :setSelectable(true):setTextColor(0x000000):setVisible(true)
     eV:setText("0")
 
@@ -71,13 +74,13 @@ for i = 1, #outputs do
     local y = scroll_offset + #prompts * 100
     local x = scroll_offset_x
 
-    local eK, error = D2Editor.newRichText():resize(300, 40)
-    eK:move(x + 8, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    local eK, error = D2Editor.newRichText():resize(pageW*0.9, 40)
+    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(outputs[i])
 
-    local eV, error = D2Editor.newRichText():resize(300, 40)
-    eV:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    local eV, error = D2Editor.newRichText():resize(pageW*0.9, 40)
+    eV:move(x + pageW*0.05, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(true):setTextColor(0x888888):setVisible(true)
     eV:setText("0")
 
@@ -103,8 +106,8 @@ function on.paint(gc)
         local eK = editors[2 * i - 1]
         local eV = editors[2 * i - 0]
 
-        eK:move(x + 8, y + (2 * i - 2) * 50)
-        eV:move(x + 8, y + (2 * i - 1) * 50)
+        eK:move(x + pageW*0.05, y + (2 * i - 2) * 50)
+        eV:move(x + pageW*0.05, y + (2 * i - 1) * 50)
     end
 
     y = y + #prompts * 100
@@ -113,8 +116,8 @@ function on.paint(gc)
         local eK = richTxt[2 * i - 1]
         local eV = richTxt[2 * i - 0]
 
-        eK:move(x + 8, y + (2 * i - 2) * 50)
-        eV:move(x + 8, y + (2 * i - 1) * 50)
+        eK:move(x + pageW*0.05, y + (2 * i - 2) * 50)
+        eV:move(x + pageW*0.05, y + (2 * i - 1) * 50)
     end
 end
 
