@@ -147,7 +147,15 @@ function reset()
     state_error = nil
     scroll_offset = 0
     scroll_offset_x = 0
-    -- TODO: clear results.
+
+    -- Clear results.
+    for i = 1, #outputs do
+        local eK = richTxt[2 * i - 1]
+        local eV = richTxt[2 * i - 0]
+
+        eV:setText("?")
+    end
+
     platform.window:invalidate()
 end
 
