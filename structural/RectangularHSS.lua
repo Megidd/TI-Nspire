@@ -54,12 +54,12 @@ for i = 1, #prompts do
     -- TODO: Change height and font size.
 
     local eK, error = D2Editor.newRichText():resize(300, 40)
-    eK:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    eK:move(x + 8, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(prompts[i])
 
     local eV, error = D2Editor.newRichText():resize(300, 40)
-    eV:move(x + 8, y + (2 * i - 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
+    eV:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
         :setSelectable(true):setTextColor(0x000000):setVisible(true)
     eV:setText("0")
 
@@ -72,12 +72,12 @@ for i = 1, #outputs do
     local x = scroll_offset_x
 
     local eK, error = D2Editor.newRichText():resize(300, 40)
-    eK:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    eK:move(x + 8, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(outputs[i])
 
     local eV, error = D2Editor.newRichText():resize(300, 40)
-    eV:move(x + 8, y + (2 * i - 0) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    eV:move(x + 8, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
         :setSelectable(true):setTextColor(0x888888):setVisible(true)
     eV:setText("0")
 
@@ -103,8 +103,8 @@ function on.paint(gc)
         local eK = editors[2 * i - 1]
         local eV = editors[2 * i - 0]
 
-        eK:move(x + 8, y + (2 * i - 1) * 50)
-        eV:move(x + 8, y + (2 * i - 0) * 50)
+        eK:move(x + 8, y + (2 * i - 2) * 50)
+        eV:move(x + 8, y + (2 * i - 1) * 50)
     end
 
     y = y + #prompts * 100
@@ -113,8 +113,8 @@ function on.paint(gc)
         local eK = richTxt[2 * i - 1]
         local eV = richTxt[2 * i - 0]
 
-        eK:move(x + 8, y + (2 * i - 1) * 50)
-        eV:move(x + 8, y + (2 * i - 0) * 50)
+        eK:move(x + 8, y + (2 * i - 2) * 50)
+        eV:move(x + 8, y + (2 * i - 1) * 50)
     end
 end
 
