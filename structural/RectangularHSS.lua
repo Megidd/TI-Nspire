@@ -54,7 +54,7 @@ for i = 1, #prompts do
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
 
-    -- TODO: Change height and font size.
+    -- TODO: Adjust height.
 
     local eK, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
     eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(10):setReadOnly(true)
