@@ -57,7 +57,7 @@ for i = 1, #prompts do
     -- TODO: Change height and font size.
 
     local eK, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(10):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(prompts[i])
 
@@ -75,7 +75,7 @@ for i = 1, #outputs do
     local x = scroll_offset_x
 
     local eK, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
+    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(10):setReadOnly(true)
         :setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(outputs[i])
 
