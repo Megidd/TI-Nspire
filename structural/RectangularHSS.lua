@@ -60,7 +60,7 @@ for i = 1, #prompts do
     eK:setText(prompts[i])
 
     local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
-    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(12)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(10)
         :setReadOnly(false):setSelectable(true):setTextColor(0x000000):setVisible(true)
     eV:setText("0")
 
@@ -78,7 +78,7 @@ for i = 1, #outputs do
     eK:setText(outputs[i])
 
     local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
-    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(12)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(10)
         :setReadOnly(true):setSelectable(true):setTextColor(0x888888):setVisible(true)
     eV:setText("0")
 
