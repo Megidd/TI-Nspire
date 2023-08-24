@@ -56,7 +56,7 @@ for i = 1, #prompts do
 
     local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
     eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
-        true):setSelectable(false):setTextColor(0x666666):setVisible(true)
+        true):setSelectable(false):setTextColor(0x000000):setVisible(true)
     eK:setText(prompts[i])
 
     local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
@@ -74,12 +74,12 @@ for i = 1, #outputs do
 
     local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
     eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
-        true):setSelectable(false):setTextColor(0x666666):setVisible(true)
+        true):setSelectable(false):setTextColor(0x000000):setVisible(true)
     eK:setText(outputs[i])
 
     local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
     eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(10)
-        :setReadOnly(true):setSelectable(true):setTextColor(0x888888):setVisible(true)
+        :setReadOnly(true):setSelectable(true):setTextColor(0x000000):setVisible(true)
     eV:setText("0")
 
     richTxt[2 * i - 1] = eK
