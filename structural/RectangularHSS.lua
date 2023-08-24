@@ -56,14 +56,14 @@ for i = 1, #prompts do
 
     -- TODO: Adjust height.
 
-    local eK, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(10):setReadOnly(true)
-        :setSelectable(false):setTextColor(0x666666):setVisible(true)
+    local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
+    eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
+        true):setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(prompts[i])
 
-    local eV, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eV:move(x + pageW*0.05, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(false)
-        :setSelectable(true):setTextColor(0x000000):setVisible(true)
+    local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(12)
+        :setReadOnly(false):setSelectable(true):setTextColor(0x000000):setVisible(true)
     eV:setText("0")
 
     editors[2 * i - 1] = eK
@@ -71,17 +71,17 @@ for i = 1, #prompts do
 end
 
 for i = 1, #outputs do
-    local y = scroll_offset + #prompts * 100
+    local y = scroll_offset + #prompts * pageH / 3 + 30
     local x = scroll_offset_x
 
-    local eK, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eK:move(x + pageW*0.05, y + (2 * i - 2) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(10):setReadOnly(true)
-        :setSelectable(false):setTextColor(0x666666):setVisible(true)
+    local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
+    eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
+        true):setSelectable(false):setTextColor(0x666666):setVisible(true)
     eK:setText(outputs[i])
 
-    local eV, error = D2Editor.newRichText():resize(pageW*0.9, pageH/6)
-    eV:move(x + pageW*0.05, y + (2 * i - 1) * 50):setBorder(1):setBorderColor(0x43adee):setFontSize(12):setReadOnly(true)
-        :setSelectable(true):setTextColor(0x888888):setVisible(true)
+    local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(12)
+        :setReadOnly(true):setSelectable(true):setTextColor(0x888888):setVisible(true)
     eV:setText("0")
 
     richTxt[2 * i - 1] = eK
@@ -106,18 +106,18 @@ function on.paint(gc)
         local eK = editors[2 * i - 1]
         local eV = editors[2 * i - 0]
 
-        eK:move(x + pageW*0.05, y + (2 * i - 2) * 50)
-        eV:move(x + pageW*0.05, y + (2 * i - 1) * 50)
+        eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3)
+        eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9)
     end
 
-    y = y + #prompts * 100
+    y = y + #prompts * pageH / 3 + 30
 
     for i = 1, #outputs do
         local eK = richTxt[2 * i - 1]
         local eV = richTxt[2 * i - 0]
 
-        eK:move(x + pageW*0.05, y + (2 * i - 2) * 50)
-        eV:move(x + pageW*0.05, y + (2 * i - 1) * 50)
+        eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3)
+        eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9)
     end
 end
 
