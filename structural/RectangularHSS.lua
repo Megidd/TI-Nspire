@@ -11,9 +11,14 @@ function logic()
         return
     end
 
-    local Zx = plastic_section_modulus(numbers[2], numbers[1], numbers[4], numbers[3])
+    local b = numbers[1]
+    local h = numbers[2]
+    local tb = numbers[3]
+    local th = numbers[4]
+
+    local Zx = plastic_section_modulus(h, b, th, tb)
     results[outputs[1]] = Zx
-    local Zy = plastic_section_modulus(numbers[1], numbers[2], numbers[3], numbers[4])
+    local Zy = plastic_section_modulus(b, h, tb, th)
     results[outputs[2]] = Zy
     return results
 end

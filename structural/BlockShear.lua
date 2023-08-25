@@ -11,13 +11,13 @@ function logic()
         return
     end
 
-    local Fu = tonumber(numbers[1])
-    local Fy = tonumber(numbers[2])
-    local Ant = tonumber(numbers[3])
-    local Agv = tonumber(numbers[4])
-    local Anv = tonumber(numbers[5])
-    local Ubs = tonumber(numbers[6])
-    local Phi = tonumber(numbers[7])
+    local Fu = numbers[1]
+    local Fy = numbers[2]
+    local Ant = numbers[3]
+    local Agv = numbers[4]
+    local Anv = numbers[5]
+    local Ubs = numbers[6]
+    local Phi = numbers[7]
 
     -- ANSI/AISC 360-16 Specification for Structural Steel Buildings
     -- (J4-5)
