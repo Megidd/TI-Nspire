@@ -7,7 +7,7 @@ To develop Lua scripts for TI-Nspire™ calculators by [this guide](https://educ
 * Custom applications that function like TI-Nspire™ built-in app.
 * ...
 
-# Benchamrk
+# Benchmark
 
 This repository can be used as a benchmark: https://github.com/skayo/TI-Nspire-Minesweeper
 
