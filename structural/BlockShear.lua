@@ -1,14 +1,15 @@
--- -- -- Input
-local numbers = {"", "", "", "", "", "", ""}
-local prompts = {"Fu: ", "Fy: ", "Ant: ", "Agv: ", "Anv: ", "Ubs: ", "Phi (0.75): "}
-local descriptions = {"trivial", "trivial", "trivial", "trivial", "trivial",
-                      "Where the tension stress is uniform, Ubs = 1; where the tension stress is nonuniform, Ubs = 0.5.",
-                      "φ=0.75 (LRFD)"}
-
--- -- -- Logic
+-- Affects drawing.
+local prompts = {"Fu", "Fy", "Ant", "Agv", "Anv", "Ubs (uniform = 1; nonuniform = 0.5)", "Phi (0.75): "}
+local outputs = {"Phi * Rn", "Phi * Max"}
 
 function logic()
     local results = {}
+
+    local numbers = input_numbers()
+
+    if numbers == nil or next(numbers) == nil or #numbers ~= #prompts then
+        return
+    end
 
     local Fu = tonumber(numbers[1])
     local Fy = tonumber(numbers[2])
@@ -18,10 +19,13 @@ function logic()
     local Ubs = tonumber(numbers[6])
     local Phi = tonumber(numbers[7])
 
+    -- ANSI/AISC 360-16 Specification for Structural Steel Buildings
+    -- (J4-5)
+
     local Rn = available_strength(Fu, Anv, Ant, Ubs)
-    results["Phi * Rn"] = Phi * Rn
+    results[outputs[1]] = Phi * Rn
     local Max = max_strength(Fy, Agv, Fu, Ant, Ubs)
-    results["Phi * Max"] = Phi * Max
+    results[outputs[2]] = Phi * Max
     return results
 end
 
@@ -35,142 +39,184 @@ function max_strength(Fy, Agv, Fu, Ant, Ubs)
     return max
 end
 
--- -- -- Common code
+-- -- -- Common code for drawing.
 
 -- '2.4' is for OS 3.7 and our OS is 3.9 so it's good.
 -- https://education.ti.com/html/webhelp/EG_TINspireLUA/EN/content/libraries/aa_scriptcompat/scriptcompatibility.htm#Creating
 platform.apiLevel = '2.4'
 
-local current_state = 1
+local pageW = platform.window:width()
+local pageH = platform.window:height()
+
+local state_error = nil
 local scroll_offset = 0 -- Add a variable to track the vertical scroll offset
 local scroll_offset_x = 0
-local help = false
 
-function on.paint(gc)
+local editors = {}
+local richTxt = {}
+
+-- Create the rich text editors outside of the on.paint(gc) function and
+-- only update their positions.
+for i = 1, #prompts do
     local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
     local x = scroll_offset_x
 
-    -- Just show help and return.
-    if help == true then
-        for i = 1, #numbers do
-            gc:drawString(prompts[i], x + 8, y + (2 * i + 0) * 20)
-            gc:drawString(descriptions[i], x + 8, y + (2 * i + 1) * 20)
-        end
-        return
-    end
+    local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
+    eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
+        true):setSelectable(false):setTextColor(0x000000):setVisible(true)
+    eK:setText(prompts[i])
 
-    if current_state > #numbers then
-        -- Draw result
-        for i = 1, #numbers do
-            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
-            if not tonumber(numbers[i]) then
-                gc:drawString("Error: Invalid input for " .. descriptions[i], x + 8, y + i * 20)
-                return
-            end
-        end
-        local results = logic()
-        local index = 1
-        for key, value in pairs(results) do
-            gc:drawString(key .. " : " .. value, x + 8, y + #numbers * 20 + (index - 1) * 20)
-            index = index + 1
-        end
+    local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(10)
+        :setReadOnly(false):setSelectable(true):setTextColor(0x000000):setVisible(true)
+    eV:setText("0")
+
+    editors[2 * i - 1] = eK
+    editors[2 * i - 0] = eV
+end
+
+for i = 1, #outputs do
+    local y = scroll_offset + #prompts * pageH / 3 + 30
+    local x = scroll_offset_x
+
+    local eK, error = D2Editor.newRichText():resize(pageW * 0.9, pageH / 9)
+    eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3):setBorder(1):setBorderColor(0x43adee):setFontSize(8):setReadOnly(
+        true):setSelectable(false):setTextColor(0x000000):setVisible(true)
+    eK:setText(outputs[i])
+
+    local eV, error = D2Editor.newRichText():resize(pageW * 0.9, pageH * 2 / 9)
+    eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9):setBorder(1):setBorderColor(0x43adee):setFontSize(10)
+        :setReadOnly(true):setSelectable(true):setTextColor(0x000000):setVisible(true)
+    eV:setText("0")
+
+    richTxt[2 * i - 1] = eK
+    richTxt[2 * i - 0] = eV
+end
+
+function on.paint(gc)
+    if state_error == nil then
     else
-        for i = 1, current_state do
-            gc:drawString(prompts[i] .. numbers[i], x + 8, y + (i - 1) * 20)
-        end
-    end
-end
-
-function on.charIn(ch)
-    if current_state > #numbers then
+        gc:setColorRGB(255, 255, 255)
+        gc:fillRect(0, 0, 320, 240)
+        gc:setColorRGB(0, 0, 0)
+        gc:setFont("sansserif", "r", 12)
+        gc:drawString(state_error, 50, 120)
         return
     end
 
-    local acceptable = false
+    local y = scroll_offset -- Subtract the scroll offset from the y-coordinate of the text
+    local x = scroll_offset_x
 
-    if ch >= "0" and ch <= "9" then
-        acceptable = true
+    for i = 1, #prompts do
+        local eK = editors[2 * i - 1]
+        local eV = editors[2 * i - 0]
+
+        eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3)
+        eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9)
     end
 
-    if ch == "." then
-        if not string.find(numbers[current_state], "%.") then
-            acceptable = true
-        end
-    end
+    y = y + #prompts * pageH / 3 + 30
 
-    if ch == "+" or ch == "-" then
-        if numbers[current_state] == "" then
-            acceptable = true
-        end
-    end
+    for i = 1, #outputs do
+        local eK = richTxt[2 * i - 1]
+        local eV = richTxt[2 * i - 0]
 
-    if numbers[current_state] == "" or numbers[current_state] == "+" or numbers[current_state] == "-" then
-        if ch == "." then
-            ch = "0."
-        end
-    end
-
-    if acceptable then
-        numbers[current_state] = numbers[current_state] .. ch
-        platform.window:invalidate()
+        eK:move(x + pageW * 0.05, y + (i - 1) * pageH / 3)
+        eV:move(x + pageW * 0.05, y + (i - 1) * pageH / 3 + pageH / 9)
     end
 end
 
-function on.enterKey()
-    if current_state > #numbers then
-        current_state = #numbers + 1
-        platform.window:invalidate()
+function run()
+    -- Draw results.
+    local results = logic()
+
+    if results == nil or next(results) == nil or getTableSize(results) ~= #outputs then
+        show_error("results count is not as expected:" .. tostring(#outputs))
         return
     end
 
-    if numbers[current_state] ~= "" then
-        current_state = current_state + 1
+    for i = 1, #outputs do
+        local eK = richTxt[2 * i - 1]
+        local eV = richTxt[2 * i - 0]
+
+        eV:setText(results[outputs[i]])
     end
-    platform.window:invalidate()
 end
 
-function on.escapeKey()
-    for i = 1, #numbers do
-        numbers[i] = ""
+function getTableSize(tbl)
+    local count = 0
+    for _ in pairs(tbl) do
+        count = count + 1
     end
-    current_state = 1
+    return count
+end
+
+function reset()
+    state_error = nil
     scroll_offset = 0
     scroll_offset_x = 0
-    help = false
-    platform.window:invalidate()
-end
 
-function on.backspaceKey()
-    if current_state > #numbers then
-        return
-    end
-    if numbers[current_state] ~= "" then
-        numbers[current_state] = string.sub(numbers[current_state], 1, -2)
-    end
-    platform.window:invalidate()
-end
+    -- Clear results.
+    for i = 1, #outputs do
+        local eK = richTxt[2 * i - 1]
+        local eV = richTxt[2 * i - 0]
 
-function on.deleteKey()
-    on.backspaceKey()
-end
-
-function on.arrowKey(arrow) -- Add a function to handle arrow key presses
-    local scroll_step = 20 -- Define the distance to scroll with each arrow key press
-
-    if arrow == "down" then
-        scroll_offset = scroll_offset + scroll_step
-    elseif arrow == "up" then
-        scroll_offset = scroll_offset - scroll_step
-    elseif arrow == "left" then
-        scroll_offset_x = scroll_offset_x - scroll_step
-    elseif arrow == "right" then
-        scroll_offset_x = scroll_offset_x + scroll_step
+        eV:setText("?")
     end
 
     platform.window:invalidate()
 end
 
 function on.tabKey()
-    help = not help
+    local scroll_step = 20
+    scroll_offset = scroll_offset - scroll_step
     platform.window:invalidate()
 end
+
+function on.backtabKey()
+    local scroll_step = 20
+    scroll_offset = scroll_offset + scroll_step
+    platform.window:invalidate()
+end
+
+function delete_markup(strI)
+    if strI == nil then
+        return nil
+    end
+    -- Math Box markup is "\0el {...}"
+    -- Remove all occurrences of "\0el {" and "}" inside string
+    local strO = strI:gsub("\\0el {(.-)}", "%1")
+    return strO
+end
+
+function show_error(err)
+    if err == nil then
+    else
+        state_error = err
+    end
+    platform.window:invalidate()
+end
+
+function input_numbers()
+    local numbers = {}
+    for i = 1, #prompts do
+        local eK = editors[2 * i - 1]
+        local eV = editors[2 * i - 0]
+        local general = eV:getExpression()
+        local E = delete_markup(general)
+        if E == nil then
+            return nil
+        end
+        local number, err = math.evalStr(E)
+        if err ~= nil then
+            show_error(err)
+            return nil
+        end
+        table.insert(numbers, number)
+    end
+    return numbers
+end
+
+menu = {{"Manage", {"Run", run}, "-", {"Reset", reset}}}
+
+toolpalette.register(menu)
